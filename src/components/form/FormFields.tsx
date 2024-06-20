@@ -35,4 +35,8 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
 
 FormField.displayName = "FormField";
 
-export { FormField };
+const MemoizedFormField = memo(FormField, (prevProps, nextProps) => {
+  return prevProps.value === nextProps.value && prevProps.errors === nextProps.errors;
+});
+
+export { MemoizedFormField as FormField };
