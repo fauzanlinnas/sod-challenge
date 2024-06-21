@@ -23,8 +23,6 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
         // @ts-ignore
         value={value}
         onChange={(e) => updateModelValue(path, field, e.target.value)}
-        type={field.type}
-        {...props}
       />
     );
   }

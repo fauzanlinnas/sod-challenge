@@ -45,21 +45,33 @@ export default function FormPage() {
   };
   // TODO: Challenge #2: Browser console is throwing a warning. Fix it.
   return (
-    <>
-      <h1>Form Page</h1>
-      <form onSubmit={handleSubmit(logSubmit)}>
-        <FormGenerator
-          schema={schema}
-          state={state}
-          model={model}
-          updateModelValue={updateModelValue}
-        />
-        <Button type={"submit"}>Submit</Button>
-      </form>
-      <hr />
-      <form action={logout}>
-        <button type={"submit"}>Logout</button>
-      </form>
-    </>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+        <h1 className="text-2xl font-bold mb-6 text-center">Form Page</h1>
+        <form onSubmit={handleSubmit(logSubmit)} className="space-y-4">
+          <FormGenerator
+            schema={schema}
+            state={state}
+            model={model}
+            updateModelValue={updateModelValue}
+          />
+          <Button
+            type="submit"
+            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Submit
+          </Button>
+        </form>
+        <hr className="my-6 border-gray-300" />
+        <form action={logout} className="flex justify-center">
+          <button
+            type="submit"
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Logout
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }

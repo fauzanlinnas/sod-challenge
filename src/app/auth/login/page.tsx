@@ -55,21 +55,26 @@ export default function LoginPage() {
   // TODO: Challenge: #4 - Change to use form generator with useFormGenerator hook and do the submit
   // TODO: Optional Challenge #1 - Use tailwindcss to style the login page
   return (
-    <div className="w-full md:w-96">
-      <form onSubmit={handleSubmit(handleLogin, handleInvalid)}>
-        <h1>Login</h1>
-        <FormGenerator
-          schema={schema}
-          state={state}
-          model={model}
-          updateModelValue={updateModelValue}
-        />
-        <div>
-          <button type="submit" className="">
-            Login
-          </button>
-        </div>
-      </form>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+        <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
+        <form onSubmit={handleSubmit(handleLogin, handleInvalid)}>
+          <FormGenerator
+            schema={schema}
+            state={state}
+            model={model}
+            updateModelValue={updateModelValue}
+          />
+          <div className="mt-6">
+            <button
+              type="submit"
+              className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Login
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
