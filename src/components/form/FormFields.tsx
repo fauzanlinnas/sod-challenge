@@ -2,6 +2,7 @@ import React, { memo } from "react";
 import { FormFieldProps } from "@/components/form/types";
 import { TextField } from "@/components/form/fields/TextField";
 import { FormLabel } from "@/components/form/FormLabel";
+import { PasswordField } from "@/components/form/fields/PasswordField";
 
 const FormField: React.FC<FormFieldProps> = ({ field, path, value, errors, updateModelValue }) => {
   const generateField = () => {
@@ -9,8 +10,10 @@ const FormField: React.FC<FormFieldProps> = ({ field, path, value, errors, updat
 
     switch (field.type) {
       case "text":
-      case "password":
         Component = TextField;
+        break;
+      case "password":
+        Component = PasswordField;
         break;
       default:
         return <></>;
