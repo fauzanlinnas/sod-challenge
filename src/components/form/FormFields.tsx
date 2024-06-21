@@ -19,6 +19,8 @@ const FormField: React.FC<FormFieldProps> = ({ field, path, value, errors, updat
         return <></>;
     }
 
+    const errorMessage = errors && errors.length > 0 ? errors[0].value : null;
+
     return (
       <FormLabel label={field.label} errors={errors} path={path}>
         <Component
@@ -28,6 +30,7 @@ const FormField: React.FC<FormFieldProps> = ({ field, path, value, errors, updat
           path={path}
           updateModelValue={updateModelValue}
         />
+        {errorMessage && <p className="text-red-500 text-xs italic">{errorMessage}</p>}
       </FormLabel>
     );
   };

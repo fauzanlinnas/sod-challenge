@@ -28,7 +28,7 @@ export default function LoginPage() {
 
   const { state, model, updateModelValue, handleSubmit } = useFormGen({
     schema: schema,
-    model: { username: "", password: "" },
+    model: { email: "", password: "" },
   });
 
   const handleLogin = async (model: FormModel) => {

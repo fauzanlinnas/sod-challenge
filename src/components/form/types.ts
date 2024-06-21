@@ -103,11 +103,9 @@ export type FormModel = {
 export type FormErrors = Record<string, ValidationError[]>;
 
 export type ValidationError = {
-  [key: string | ModelPath]: {
-    type: string;
-    value: PrimitiveValues;
-    threshold?: DateValidationThreshold | NumberValidationThresholdType;
-  };
+  type: string;
+  value: PrimitiveValues;
+  threshold?: DateValidationThreshold | NumberValidationThresholdType;
 };
 
 export type DateValidationThreshold = {

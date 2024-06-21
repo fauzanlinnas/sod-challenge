@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
+import * as yup from "yup";
 import {
   FieldDefinition,
   FormErrors,
   FormModel,
+  FormSchema,
   ModelPath,
   SubmitHandler,
   UseFormGeneratorProps,
@@ -13,6 +15,23 @@ import cloneObject from "@/utils/cloneObject";
 import set from "@/utils/set";
 import deepEqual from "@/utils/deepEqual";
 import { PrimitiveValues } from "@/utils/types";
+
+const getYupSchema = (schema: FormSchema) => {
+  const shape = schema.definitions.reduce((acc, field) => {
+    let validator = yup.string();
+
+    if (field.rules) {
+      field.rules.forEach((rule) => {
+        if (rule.name === "required") {
+          validator = validator.required("This field is required");
+        }
+      });
+    }
+    acc[field.name] = validator;
+    return acc;
+  }, {} as Record<string, yup.StringSchema>);
+  return yup.object().shape(shape);
+};
 
 // TODO: Challenge #1 - There's bug hidden in this file.
 export function useFormGen(props: UseFormGeneratorProps): UseFormGeneratorReturn {
@@ -26,6 +45,7 @@ export function useFormGen(props: UseFormGeneratorProps): UseFormGeneratorReturn
   });
 
   const [model, setModel] = useState({} as FormModel);
+  const validationSchema = getYupSchema(props.schema);
 
   useEffect(() => {
     // init values from
@@ -62,6 +82,23 @@ export function useFormGen(props: UseFormGeneratorProps): UseFormGeneratorReturn
     },
     [model, state]
   );
+
+  const validateModel = async (modelForSubmit: FormModel): Promise<FormErrors> => {
+    const validationSchema = getYupSchema(props.schema);
+
+    try {
+      await validationSchema.validate(modelForSubmit, { abortEarly: false });
+      return {};
+    } catch (yupError) {
+      const errors: FormErrors = {};
+      (yupError as yup.ValidationError).inner.forEach((error: yup.ValidationError) => {
+        if (error.path) {
+          errors[error.path] = [{ type: error.type as string, value: error.message }];
+        }
+      });
+      return errors;
+    }
+  };
 
   const handleValidFlow = async (onValid: SubmitHandler, modelForSubmit: FormModel) => {
     try {
@@ -113,8 +150,14 @@ export function useFormGen(props: UseFormGeneratorProps): UseFormGeneratorReturn
           isSubmitting: true,
         };
       });
+
       const modelForSubmit = cloneObject(model);
-      if (Object.keys(state.errors).length > 0) {
+      const validationErrors = await validateModel(modelForSubmit);
+      setState((prev) => ({
+        ...prev,
+        errors: validationErrors,
+      }));
+      if (Object.keys(validationErrors).length > 0) {
         if (onInvalid) {
           await handleInvalidFlow(onInvalid, modelForSubmit);
         }
