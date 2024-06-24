@@ -94,7 +94,7 @@ export type UpdateModelValue = (
 ) => void;
 
 export type FieldType = "text" | "password" | "combo" | "radio" | "checkbox";
-export type ValidationRuleType = "required";
+export type ValidationRuleType = "required" | "email";
 
 export type ModelPath = string;
 export type FormModel = {

@@ -22,8 +22,15 @@ const getYupSchema = (schema: FormSchema) => {
 
     if (field.rules) {
       field.rules.forEach((rule) => {
-        if (rule.name === "required") {
-          validator = validator.required("This field is required");
+        switch (rule.name) {
+          case "required":
+            validator = validator.required("This field is required");
+            break;
+          case "email":
+            validator = validator.email("Invalid email address");
+            break;
+          default:
+            break;
         }
       });
     }

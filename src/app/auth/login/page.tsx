@@ -12,7 +12,7 @@ export default function LoginPage() {
         name: "email",
         type: "text",
         label: { text: "Username" },
-        rules: [{ name: "required" }],
+        rules: [{ name: "required" }, { name: "email" }],
       },
       {
         name: "password",
