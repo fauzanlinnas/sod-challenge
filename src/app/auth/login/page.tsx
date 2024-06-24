@@ -17,7 +17,7 @@ export default function LoginPage() {
       {
         name: "password",
         type: "password",
-        label: { text: "password" },
+        label: { text: "Password" },
         rules: [{ name: "required" }],
       },
     ],

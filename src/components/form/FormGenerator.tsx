@@ -16,7 +16,7 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
 
   // TODO: Challenge #5 last_name re-rendered as I change value for first_name. Figure how to optimize this.
   return (
-    <>
+    <div className="space-y-2">
       {schema.definitions.map((field, i) => (
         <FormField
           key={field.name + i}
@@ -27,7 +27,7 @@ const FormGenerator: React.FC<FormGeneratorProps> = ({
           updateModelValue={updateModelValue}
         />
       ))}
-    </>
+    </div>
   );
 };
 
